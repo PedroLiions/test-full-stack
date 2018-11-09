@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\CategoryProduct;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryProductController extends Controller
 {
+    private $categoryService;
+
+    public function __construct(
+        CategoryService $categoryService
+    )
+    {
+        $this->categoryService = $categoryService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +24,21 @@ class CategoryProductController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $categories = $this->categoryService->getProductsCategories();
+
+            return response([
+                'status'    => 200,
+                'data'      => $categories
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                'status' => 500,
+                'data' => '',
+                'message' => $e->getMessage(),
+                'trace' => $e->getTrace()
+            ]);
+        }
     }
 
     /**
