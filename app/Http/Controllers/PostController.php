@@ -2,37 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
-use App\Services\FileService;
-use App\Services\ProductService;
+use App\Services\PostService;
 use Illuminate\Http\Request;
-use Mockery\Exception;
 
-class ProductController extends Controller
+use App\Post;
+use App\Services\FileService;
+
+class PostController extends Controller
 {
-    private $productService;
+    private $post;
+    private $postService;
     private $fileService;
 
     public function __construct(
-        ProductService $productService,
-        FileService $fileService
+        Post $post,
+        FileService $fileService,
+        PostService $postService
     )
     {
-        $this->productService = $productService;
+        $this->post = $post;
         $this->fileService = $fileService;
+        $this->postService = $postService;
     }
 
     public function index()
     {
         try {
+            $posts = $this->post->all();
 
-            $products = $this->productService->all();
+            $posts->load('categories');
 
             return response([
                 'status' => 200,
-                'data' => $products,
+                'data' => $posts,
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response([
                 'status' => 500,
                 'data' => '',
@@ -46,42 +50,44 @@ class ProductController extends Controller
     {
         try {
             $inputs = $request->all();
-            // Para criar o produto
-            if (! isset($inputs['id'])) {
-                if ($request->file('photo')) {
+
+            // para criar
+            if (!isset($inputs['id'])) {
+                if (isset($inputs['photo'])) {
                     $inputs['photo'] = $this->fileService->upload($request->file('photo'));
                 } else {
                     unset($inputs['photo']);
                 }
-                $product = $this->productService->create($inputs);
+
+                $post = $this->postService->create($inputs);
 
                 return response([
                     'status' => 200,
-                    'data' => $product,
+                    'data' => $post,
                     'message' => 'Produto adicionado com sucesso',
                     'icon' => 'success'
                 ]);
-            // Para editar
+                // para editar
             } else {
-                $product = $this->productService->find($inputs['id']);
+                $product = $this->postService->find($inputs['id']);
+
                 if ($request->file('photo')) {
                     $this->fileService->delete($product['photo']);
 
                     $inputs['photo'] = $this->fileService->upload($request->file('photo'));
 
-                    $product = $this->productService->update($product, $inputs);
+                    $post = $this->postService->update($product, $inputs);
                 } else {
-                    $product = $this->productService->update($product, $inputs);
+                    $post = $this->postService->update($product, $inputs);
                 }
 
                 return response([
                     'status' => 200,
-                    'data' => $product,
+                    'data' => $post,
                     'message' => 'Alterações realizadas com sucesso',
                     'icon' => 'success'
                 ]);
             }
-
         } catch (\Exception $e) {
             return response([
                 'status' => 500,
@@ -92,21 +98,21 @@ class ProductController extends Controller
         }
     }
 
-    public function show(Product $product)
+    public function show(Post $post)
     {
-        $product->load('categories');
+        $post->load('categories');
 
         return response([
             'status' => 200,
-            'data' => $product,
+            'data' => $post
         ]);
     }
 
-    public function destroy(Product $product)
+    public function destroy(Post $post)
     {
-        if (isset($product->photo)) $this->fileService->delete($product->photo);
-        if ($product->categories()->count() > 0) $product->categories()->detach();
-        $product->delete();
+        if (isset($post->photo)) $this->fileService->delete($post->photo);
+        if ($post->categories()->count() > 0) $post->categories()->detach();
+        $post->delete();
 
         return response([
             'status' => 200,
@@ -114,24 +120,5 @@ class ProductController extends Controller
             'message' => 'Produto deletado com sucesso',
             'icon' => 'success'
         ]);
-    }
-
-    public function getImage($path)
-    {
-        try {
-            $image = $this->fileService->getImage($path);
-
-            return response($image)
-                ->header('Content-Type', 'image/png')
-                ->header('Pragma', 'public')
-                ->header('Cache-Control', 'max-age=60, must-revalidate');
-        } catch (\Exception $e) {
-            return response([
-                'status' => 500,
-                'data' => '',
-                'message' => $e->getMessage(),
-                'trace' => $e->getTrace()
-            ]);
-        }
     }
 }
