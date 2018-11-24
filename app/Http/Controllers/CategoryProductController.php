@@ -42,16 +42,6 @@ class CategoryProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -59,7 +49,10 @@ class CategoryProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response([
+            'status' => 200,
+            'data' => $this->categoryService->createProductCategory($request->all())
+        ]);
     }
 
     /**

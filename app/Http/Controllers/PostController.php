@@ -26,6 +26,8 @@ class PostController extends Controller
     }
 
     public function index()
+
+        
     {
         try {
             $posts = $this->post->all();
