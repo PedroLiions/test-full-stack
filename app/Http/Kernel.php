@@ -18,7 +18,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \Barryvdh\Cors\HandleCors::class,
+//        \Barryvdh\Cors\HandleCors::class,
 
 //        \App\Http\Middleware\Cors::class,
     ];
@@ -43,10 +43,6 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
-
-        'cors' => [
-            \Barryvdh\Cors\HandleCors::class,
-        ],
     ];
 
     /**
@@ -66,6 +62,8 @@ class Kernel extends HttpKernel
 
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
+
+        'cors' => \App\Http\Middleware\Cors::class
 
     ];
 }
