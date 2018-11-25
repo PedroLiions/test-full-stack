@@ -25,6 +25,6 @@ class Cors
         return $response
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
             ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With, Application')
-            ->header('Access-Control-Allow-Origin: http://cappuccino.plima.me/login/');
+            ->header('Access-Control-Allow-Origin: *');
     }
 }
