@@ -32,4 +32,12 @@ class CategoryPostController extends Controller
             ]);
         }
     }
+
+    public function store(Request $request)
+    {
+        return response([
+            'status' => 200,
+            'data' => $this->categoryService->createPostCategory($request->all())
+        ]);
+    }
 }

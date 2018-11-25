@@ -38,4 +38,9 @@ class CategoryService
         $category->save();
         return $category;
     }
-}
+
+    public function createPostCategory ($inputs) {
+        $category = $this->categoryPost->fill($inputs);
+        $category->save();
+        return $category;
+    }
