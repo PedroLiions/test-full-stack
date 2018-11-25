@@ -1,8 +1,8 @@
 <?php
 
-Route::options('{any?}', function (){
+Route::options('{any?}', ['middleware' => 'cors', function (){
     return response('',200);
-})->where('any', '.*');
+}])->where('any', '.*');
 
 // FILES
 Route::get('get-image/{path}', 'FileController@getImage');
