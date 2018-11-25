@@ -17,6 +17,8 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
+        header('Access-Control-Allow-Origin: http://cappuccino.plima.me/login/');
+
         if ($request->isMethod('OPTIONS')) {
             $response = Response::make();
         } else {
