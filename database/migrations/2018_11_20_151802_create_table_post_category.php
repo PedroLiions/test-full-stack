@@ -19,7 +19,7 @@ class CreateTablePostCategory extends Migration
             $table->unsignedInteger('category_id')->nullable();
             $table->unsignedInteger('post_id')->nullable();
 
-            $table->foreign('category_id')->references('id')->on('categories_products');
+            $table->foreign('category_id')->references('id')->on('posts_categories');
             $table->foreign('post_id')->references('id')->on('posts');
 
             $table->timestamps();

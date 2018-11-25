@@ -1,5 +1,9 @@
 <?php
 
+Route::get('', function () {
+    return 'Bem vindo ao desafio cappuccino';
+});
+
 // FILES
 Route::get('get-image/{path}', 'FileController@getImage');
 
