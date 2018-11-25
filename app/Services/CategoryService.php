@@ -33,14 +33,17 @@ class CategoryService
         return $posts;
     }
 
-    public function createProductCategory($inputs) {
+    public function createProductCategory($inputs)
+    {
         $category = $this->categoryProduct->fill($inputs);
         $category->save();
         return $category;
     }
 
-    public function createPostCategory ($inputs) {
+    public function createPostCategory($inputs)
+    {
         $category = $this->categoryPost->fill($inputs);
         $category->save();
         return $category;
     }
+}
