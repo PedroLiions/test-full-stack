@@ -46,7 +46,7 @@ export function tokenGetter() {
       JwtModule.forRoot({
           config: {
               tokenGetter: tokenGetter,
-              whitelistedDomains: ['127.0.0.1:8000', '127.0.0.1:8080'],
+              whitelistedDomains: ['127.0.0.1:8000', '127.0.0.1:8080', 'http://apicappuccino.plima.me'],
           }
       })
   ],
