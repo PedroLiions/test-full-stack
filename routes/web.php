@@ -1,8 +1,8 @@
 <?php
 
-Route::get('', function () {
-    return 'Bem vindo ao desafio cappuccino';
-});
+Route::options('{any?}', function (){
+    return response('',200);
+})->where('any', '.*');
 
 // FILES
 Route::get('get-image/{path}', 'FileController@getImage');
