@@ -7,7 +7,7 @@ Route::get('get-image/{path}', 'FileController@getImage');
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
 
-Route::middleware('jwt.auth')->group(function() {
+Route::middleware(['cors', 'jwt.auth'])->group(function() {
     // DASHBOARD
     Route::get('dashboard', 'DashboardController@index');
 
