@@ -20,6 +20,8 @@ class ProductController extends Controller
     {
         $this->productService = $productService;
         $this->fileService = $fileService;
+
+//        $this->middleware('jwt.auth');
     }
 
     public function index()

@@ -40,4 +40,13 @@ class CategoryPostController extends Controller
             'data' => $this->categoryService->createPostCategory($request->all())
         ]);
     }
+
+    public function destroy($id) {
+        return response([
+            'status' => 200,
+            'data' => $this->categoryService->postDelete($id),
+            'message' => 'Categoria deletada com sucesso',
+            'icon' => 'success'
+        ]);
+    }
 }

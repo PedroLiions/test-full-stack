@@ -24,6 +24,12 @@ class PostService
         $post = $this->post->fill($data);
         $post->save();
 
+
+        $categories = json_decode($data['categories']);
+        $post->categories()->sync($categories);
+
+        $post->load('categories');
+
         return $post;
     }
 
@@ -36,6 +42,12 @@ class PostService
     public function update($post, $data) {
         $post->fill($data);
         $post->save();
+
+
+        $categories = json_decode($data['categories']);
+        $post->categories()->sync($categories);
+
+        $post->load('categories');
 
         return $post;
     }

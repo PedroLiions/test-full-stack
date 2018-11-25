@@ -113,12 +113,12 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if (isset($post->photo)) $this->fileService->delete($post->photo);
-        if ($post->categories()->count() > 0) $post->categories()->detach();
+        $post->categories()->detach();
         $post->delete();
 
         return response([
             'status' => 200,
-            'data' => '',
+            'data' => $post,
             'message' => 'Produto deletado com sucesso',
             'icon' => 'success'
         ]);

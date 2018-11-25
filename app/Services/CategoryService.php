@@ -46,4 +46,26 @@ class CategoryService
         $category->save();
         return $category;
     }
+
+    public function postDelete($id)
+    {
+        $category = $this->categoryPost->find($id);
+
+        $category->posts()->detach();
+
+        $category->delete();
+
+        return $category;
+    }
+
+    public function productDelete($id)
+    {
+        $category = $this->categoryProduct->find($id);
+
+        $category->products()->detach();
+
+        $category->delete();
+
+        return $category;
+    }
 }
